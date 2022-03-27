@@ -1,0 +1,21 @@
+---
+- name: absent apache
+  yum:
+    name: httpd
+    state: absent
+
+- name: absent index.html
+  ansible.builtin.file:
+    dest: /var/www/html/index.html
+    state: absent
+
+- name: close 80 port
+  firewalld:
+    service: http
+    permanent: true
+    state: disabled
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted

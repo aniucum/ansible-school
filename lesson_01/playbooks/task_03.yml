@@ -1,0 +1,6 @@
+---
+- name: custom grub
+  hosts: all
+  become: true
+  roles:
+    - grub
