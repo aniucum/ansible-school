@@ -1,6 +1,7 @@
 ---
 - name: remove httpd
   hosts: all
+  gather_facts: no  
   become: true
   roles:
     - remove_httpd

@@ -1,6 +1,7 @@
 ---
 - name: custom grub
   hosts: all
+  gather_facts: no  
   become: true
   roles:
     - grub
