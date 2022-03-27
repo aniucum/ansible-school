@@ -1,6 +1,7 @@
 ---
 - name: install httpd
   hosts: all
+  gather_facts: no
   become: true
   roles:
    - httpd
