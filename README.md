@@ -1,18 +1,17 @@
 # lesson_01
 1. task_01
-1.1 установка пакета httpd
-1.2 включение службы веб-сервера и проверка, что он запущен
-1.3 создание файла /var/www/html/index.html с текстом “Welcome to my web server”;
-1.4 используйте модуль firewalld для того, чтобы открыть необходимые для работы веб-сервера порты брендмауэра.
-
 ```
-
+cd ansible-school/lesson_01/
+ansible-playbook -i ./inventory/dev/dev.ini  ./playbooks/task_01.yml
 ```
-
+![lesson_01 task_01](/img/lesson_01_task_01.JPG)
 2. task_02
-2.1 удалить httpd с управляемых хостов;
-2.2 удалить файл /var/www/html/index.html;
-2.3 закрыть на фаерволе порты, используемые веб-сервером.
-
+```
+ansible-playbook -i ./inventory/dev/dev.ini  ./playbooks/task_02.yml
+```
+![lesson_01 task_02](/img/lesson_01_task_02.JPG)
 3. task_03
-3.1 Создайте плейбук для изменения файла /etc/default/grub. Он должен добавить параметры net.ifnames=0 и biosdevname=0 в строку, выполняющую загрузку ядра. Выполните grub2-mkconfig, чтобы записать изменения в /etc/default/grub. Используйте модуль lineinfile для изменения конфигурационного файла.
+```
+ansible-playbook -i ./inventory/dev/dev.ini  ./playbooks/task_03.yml
+```
+![lesson_01 task_03](/img/lesson_01_task_03.JPG)
