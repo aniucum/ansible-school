@@ -1,0 +1,15 @@
+---
+- name: create users
+  ansible.builtin.user:
+    name: "{{ item.0 }}"
+    create_home: yes
+    home: "/home/{{ item.0 }}"
+    comment: "{{ item.0 }}@example.com"
+    password: "{{ item.1 }}"
+    state: present
+  loop: "{{ user }}"
+  vars:
+    user:
+      - ['Alice', '$6$.ecdXhP4OkSnVIEj$Vmj7BBlGypWRgPsud5oq2ss7ODi9zSP7goXuUam12yod70S27VVkik3LzrSfuZOtl1LyeHfGXajYt3GRO1YQl.']
+      - ['Bob', '$6$08X3w/Tt2WerIACS$OYB1CazprXzdxUs3XjIBA3eM.4eckymBYIKUrvrKYZkGNFqpWwSqOdnfPKNu2/gnTbOmQ.E8wBWoKOeEEK0H5/']
+      - ['Carol', '$6$stNZGVpK3bq47WMo$Bbd1t2PEupndEyEsoTxh2bxC7/oBa4VnYegteb05VuY4gAdECMeSl.Odium0EIDdFZvfMXIQztUnRWRoiSLZD0']

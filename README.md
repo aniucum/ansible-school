@@ -15,3 +15,13 @@ ansible-playbook -i ./inventory/dev/dev.ini  ./playbooks/task_02.yml
 ansible-playbook -i ./inventory/dev/dev.ini  ./playbooks/task_03.yml
 ```
 ![lesson_01 task_03](/img/lesson_01_task_03.JPG)
+# lesson_02
+- Create password
+```bash
+python -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+
+passwordAlice
+passwordBob
+passwordCarol
+```
+![lesson_02 task_01](/img/lesson_02_task_01.JPG)
