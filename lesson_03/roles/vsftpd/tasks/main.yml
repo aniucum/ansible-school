@@ -63,7 +63,7 @@
     state: yes
     persistent: yes
 
-- name: Allow vsftpd to modify files in /var/ftp/pub/uploads
+- name: Allow vsftpd to modify files in /var/ftp/pub/upload
   community.general.sefcontext:
     target: '{{ vsftpd.upload_path }}(/.*)?'
     setype: public_content_rw_t
