@@ -1,0 +1,73 @@
+---
+- name: install vsftpd
+  yum:
+    name: vsftpd
+    state: present
+
+- name: run services
+  service:
+    name: vsftpd
+    state: started
+
+- name: check status
+  ansible.builtin.service_facts:
+
+- name: check status services
+  ansible.builtin.debug:
+    var: ansible_facts.services['vsftpd.service']
+
+- name: copy vsftpd.conf
+  template:
+    src: vsftpd.conf.j2
+    dest: /etc/vsftpd/vsftpd.conf
+  notify:
+    - restart vsftpd
+
+- name: open ports
+  firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: yes
+  loop:
+    - 20/tcp
+    - 21/tcp
+    - 990/tcp
+    - 40000-50000/tcp
+  notify:
+    - restart firewalld
+
+- name: create user ftp
+  ansible.builtin.user:
+    name: "{{ vsftpd.nopriv_user }}"
+    group: "{{ vsftpd.nopriv_user }}"
+    create_home: no
+    comment: "nologin user"
+    shell: /bin/false
+    state: present
+
+- name: Create dir for anonymous user
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ vsftpd.nopriv_user }}"
+    group: "{{ vsftpd.nopriv_user }}"
+  loop:
+    - "{{ vsftpd.local_root }}"
+    - "{{ vsftpd.upload_path }}"
+
+- name: set ftpd_anon_write
+  ansible.posix.seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+
+- name: Allow vsftpd to modify files in /var/ftp/pub/uploads
+  community.general.sefcontext:
+    target: '{{ vsftpd.upload_path }}(/.*)?'
+    setype: public_content_rw_t
+    state: present
+
+- name: apply new SELinux file context to filesystem
+  ansible.builtin.command: restorecon -F -R -v "{{ vsftpd.upload_path }}"

@@ -1,0 +1,18 @@
+---
+- name: install packages
+  hosts: all
+  become: true
+  gather_facts: no
+  roles:
+    - httpd
+    - vsftpd
+
+  pre_tasks:
+  - name: install python
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - epel-release
+      - python3
+      - policycoreutils-python-utils
