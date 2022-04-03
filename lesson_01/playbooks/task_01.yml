@@ -5,3 +5,7 @@
   become: true
   roles:
    - httpd
+
+  pre_tasks:
+  - shell: pwd
+    register: shellout
